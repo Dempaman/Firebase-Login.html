@@ -73,6 +73,9 @@
 		#userIdText{
 			display: flex;
 			justify-content: center;
+			font-family: Arial;
+			font-size: 1.5em;
+			font-weight: bold;
 		}
 		.so1, .so2, .so3{
 			display: none;
@@ -182,7 +185,6 @@
 
 	</style>
 
-
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
 window.addEventListener('load', function() {
@@ -218,7 +220,7 @@ window.addEventListener('load', function() {
 			var uid = user.uid;
 			var providerData = user.providerData;
 		console.log('onAuthStateChanged: user is signed in', user);
-		githubSignInFunction();
+		//githubSignInFunction();
 			// ...
 		} else {
 			// User is signed out.
@@ -226,28 +228,6 @@ window.addEventListener('load', function() {
 		console.log('onAuthStateChanged: user is signed out');
 		}
 	});
-
-	/*
-	firebase.auth().getRedirectResult().then(function(result) {
-		// Om vi har gjort en redirect tidigare,
-		// så är result.user !== null
-		if( result.user ) {
-			console.log('Redirect result, success: we have a user.');
-			console.log('You are logged in as ' + firebase.auth().currentUser.displayName);
-			fetchFromDatabase();
-		} else {
-			console.log('Redirect result, user is null.');
-		}
-	})
-	.catch(function(error) {
-		// Inträffar om vi inte kan få information om en
-		// eventuell tidigare redirect
-		console.log('Redirect result, error: ' + error.message);
-	})
-
-		document.getElementById('redirectButton').addEventListener('click', function(e) {
-			firebase.auth().signInWithRedirect(provider);
-		}); */
 
 		//** GITHUB POPUP SIGN IN SCRIPT **//
 		let popupButtonGithub = document.getElementsByClassName('loginBtn--github')[0]
@@ -259,20 +239,15 @@ window.addEventListener('load', function() {
 			firebase.auth().signInWithPopup(provider).then(function(result) {
 				var user = result.user;
 				console.log(user);
-				console.log('Popup result: logged in as ', user.email);
-
+				console.log('Popup result: logged in as ', user.displayName);
 				userIMG.src = user.photoURL;
-				userIdText.innerHTML = user.email;
-
+				userIdText.innerHTML = user.displayName;
 				let userInfoWrapper = document.getElementsByClassName('userInfoWrapper')[0];
 				userInfoWrapper.className = "userInfoWrapperShow";
-
 				let containerLoginButtons = document.getElementsByClassName("containerLoginButtons")[0]; //HIDES THE LOGIN BUTTONS
 				containerLoginButtons.className = "hideButtons";
-
 				let so1 = document.getElementsByClassName("so1")[0];
 				so1.className = "so1Show";
-
 				//** LOGGING OUT OTHERS IF ANY **//
 				firebase.auth().signOut().then(function() {
 					console.log("Sign out from Google account success")
@@ -287,21 +262,15 @@ window.addEventListener('load', function() {
 			});
 		}
 
-
-
-
 		//** GITHUB SIGN OUT **//
 		document.getElementById('signoutButton').addEventListener('click', function(event) {
 			firebase.auth().signOut().then(function(result) {
 				let userInfoWrapperShow = document.getElementsByClassName('userInfoWrapperShow')[0]; //HIDES THE USER INFO
 				userInfoWrapperShow.className = "userInfoWrapper";
-
 				let hideButtons = document.getElementsByClassName("hideButtons")[0]; //SHOWS THE LOGIN BUTTONS
 				hideButtons.className = "containerLoginButtons";
-
 				let so1Show = document.getElementsByClassName("so1Show")[0];
 				so1Show.className = "so1";
-
 				console.log('Signed out user');
 			})
 			.catch(function(error) {
@@ -321,19 +290,15 @@ window.addEventListener('load', function() {
 		  var token = result.credential.accessToken;
 		  // The signed-in user info.
 		  var user = result.user;
-
+			console.log('Popup result: logged in as ', user.displayName);
 			userIMG.src = user.photoURL;
-			userIdText.innerHTML = user.email;
-
+			userIdText.innerHTML = user.displayName;
 			let userInfoWrapper = document.getElementsByClassName('userInfoWrapper')[0];
 			userInfoWrapper.className = "userInfoWrapperShow";
-
 			let containerLoginButtons = document.getElementsByClassName("containerLoginButtons")[0]; //HIDES THE LOGIN BUTTONS
 			containerLoginButtons.className = "hideButtons";
-
 			let so2 = document.getElementsByClassName("so2")[0];
 			so2.className = "so2Show";
-
 			//** LOGGING OUT OTHERS IF ANY **//
 				firebase.auth().signOut().then(function(result) {
 					console.log('Signed out Github user success');
@@ -347,8 +312,6 @@ window.addEventListener('load', function() {
 				  // An error happened.
 				});
 
-
-
 			}).catch(function(error) {
 			  // Handle Errors here.
 			  var errorCode = error.code;
@@ -360,39 +323,17 @@ window.addEventListener('load', function() {
 			  // ...
 			});
 			});
-
-			//** REDIRECT GOOGLE LOGIN **//
-			/*
-			let redirectButtonGoogle = document.getElementById('redirectButtonGoogle');
-			redirectButtonGoogle.addEventListener('click', function(event){
-
-			firebase.auth().signInWithRedirect(providerGoogle);
-
-			firebase.auth().getRedirectResult().then(function(result) {
-			  if (result.credential) {
-			    // This gives you a Google Access Token. You can use it to access the Google API.
-			    var token = result.credential.accessToken;
-			    // ...
-		  	}
-			  // The signed-in user info.
-			  var user = result.user;
-				fetchFromDatabase();
-			}).catch(function(error) {
-			  // Handle Errors here.
-			  var errorCode = error.code;
-			  var errorMessage = error.message;
-			  // The email of the user's account used.
-			  var email = error.email;
-			  // The firebase.auth.AuthCredential type that was used.
-			  var credential = error.credential;
-			  // ...
-			});
-		}); */
 
 			//**SIGN OUT GOOGLE **//
 			let signoutButtonGoogle = document.getElementById('signoutButtonGoogle');
 			signoutButtonGoogle.addEventListener('click', function(event){
 			firebase.auth().signOut().then(function() {
+				let userInfoWrapperShow = document.getElementsByClassName('userInfoWrapperShow')[0]; //HIDES THE USER INFO
+				userInfoWrapperShow.className = "userInfoWrapper";
+				let hideButtons = document.getElementsByClassName("hideButtons")[0]; //SHOWS THE LOGIN BUTTONS
+				hideButtons.className = "containerLoginButtons";
+				let so2Show = document.getElementsByClassName("so2Show")[0];
+				so2Show.className = "so2";
 			  console.log("Sign out from Google account success")// Sign-out successful
 			}).catch(function(error) {
 			  // An error happened.
@@ -410,8 +351,15 @@ window.addEventListener('load', function() {
 			  var token = result.credential.accessToken;
 			  // The signed-in user info.
 			  var user = result.user;
-				//fetchFromDatabase();
-			  // ...
+				console.log('Popup result: logged in as ', user.displayName);
+				userIMG.src = user.photoURL;
+				userIdText.innerHTML = user.displayName;
+				let userInfoWrapper = document.getElementsByClassName('userInfoWrapper')[0];
+				userInfoWrapper.className = "userInfoWrapperShow";
+				let containerLoginButtons = document.getElementsByClassName("containerLoginButtons")[0]; //HIDES THE LOGIN BUTTONS
+				containerLoginButtons.className = "hideButtons";
+				let so3 = document.getElementsByClassName("so3")[0];
+				so3.className = "so3Show";
 			}).catch(function(error) {
 			  // Handle Errors here.
 			  var errorCode = error.code;
@@ -424,42 +372,23 @@ window.addEventListener('load', function() {
 			});
 			});
 
-			//** REDIRECT FACEBOOK LOGIN **//
-			/*
-			let redirectButtonfb = document.getElementById('redirectButtonfb');
-			redirectButtonfb.addEventListener('click', function(event){
-			firebase.auth().getRedirectResult().then(function(result) {
-			  if (result.credential) {
-			    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-			    var token = result.credential.accessToken;
-			    // ...
-			  }
-			  // The signed-in user info.
-			  var user = result.user;
-				fetchFromDatabase();
-			}).catch(function(error) {
-			  // Handle Errors here.
-			  var errorCode = error.code;
-			  var errorMessage = error.message;
-			  // The email of the user's account used.
-			  var email = error.email;
-			  // The firebase.auth.AuthCredential type that was used.
-			  var credential = error.credential;
-			  // ...
-			});
-			}); */
 			//** SIGN OUT FB **//
 			let signoutButtonfb = document.getElementById('signoutButtonfb');
 			signoutButtonfb.addEventListener('click', function(event){
 				firebase.auth().signOut().then(function() {
+					let userInfoWrapperShow = document.getElementsByClassName('userInfoWrapperShow')[0]; //HIDES THE USER INFO
+					userInfoWrapperShow.className = "userInfoWrapper";
+					let hideButtons = document.getElementsByClassName("hideButtons")[0]; //SHOWS THE LOGIN BUTTONS
+					hideButtons.className = "containerLoginButtons";
+					let so3Show = document.getElementsByClassName("so3Show")[0];
+					so3Show.className = "so3";
 				  console.log("Facebook sign out was successful")// Sign-out successful.
 				}).catch(function(error) {
 				  // An error happened.
 				});
 			});
 
-
-	// Gör DOM-manipulation, måste anropas inifrån webbläsarens load-händelse
+/* Spara detta?
 	function fetchFromDatabase() {
 		db.ref('/').on('value', function(snapshot) {
 			console.log('On value: hämtar hela databasen.');
@@ -477,9 +406,9 @@ window.addEventListener('load', function() {
 				divRecept.appendChild(newDiv);
 			}
 		})
-	}
+	} */
 
-		})  // window.load
+		})  // window load
 
 	</script>
 </head>
