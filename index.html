@@ -206,6 +206,7 @@ window.addEventListener('load', function() {
 	  'allow_signup': 'true'
 	});
 	//** CHECK IF USER IN SIGNED IN WITH GITHUB **//
+
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 			// User is signed in.
@@ -248,7 +249,7 @@ window.addEventListener('load', function() {
 			firebase.auth().signInWithRedirect(provider);
 		}); */
 
-		//** GITHUB POPUP SCRIPT **//
+		//** GITHUB POPUP SIGN IN SCRIPT **//
 		let popupButtonGithub = document.getElementsByClassName('loginBtn--github')[0]
 		popupButtonGithub.addEventListener('click', function(event){
 			githubSignInFunction();
@@ -272,10 +273,15 @@ window.addEventListener('load', function() {
 				let so1 = document.getElementsByClassName("so1")[0];
 				so1.className = "so1Show";
 
-				
-
-				//fetchFromDatabase(); .so2, .s3
-
+				//** LOGGING OUT OTHERS IF ANY **//
+				firebase.auth().signOut().then(function() {
+					console.log("Sign out from Google account success")
+				}).catch(function(error) {
+				});
+					firebase.auth().signOut().then(function() {
+					  console.log("Facebook sign out was successful")
+					}).catch(function(error) {
+					});
 			}).catch(function(error) {
 				console.log('Popup result, error: ' + error.message);
 			});
@@ -327,6 +333,21 @@ window.addEventListener('load', function() {
 
 			let so2 = document.getElementsByClassName("so2")[0];
 			so2.className = "so2Show";
+
+			//** LOGGING OUT OTHERS IF ANY **//
+				firebase.auth().signOut().then(function(result) {
+					console.log('Signed out Github user success');
+				})
+				.catch(function(error) {
+					console.log('Signout failed');
+				});
+				firebase.auth().signOut().then(function() {
+				  console.log("Facebook sign out was successful")
+				}).catch(function(error) {
+				  // An error happened.
+				});
+
+
 
 			}).catch(function(error) {
 			  // Handle Errors here.
@@ -427,7 +448,7 @@ window.addEventListener('load', function() {
 			  // ...
 			});
 			}); */
-
+			//** SIGN OUT FB **//
 			let signoutButtonfb = document.getElementById('signoutButtonfb');
 			signoutButtonfb.addEventListener('click', function(event){
 				firebase.auth().signOut().then(function() {
@@ -498,4 +519,3 @@ window.addEventListener('load', function() {
 
 </body>
 </html>
-
