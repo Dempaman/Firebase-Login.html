@@ -294,7 +294,7 @@ window.addEventListener('load', function() {
 		  var user = result.user;
 			console.log('Popup result: logged in as ', user.displayName);
 			userIMG.src = user.photoURL;
-			userIdText.innerHTML = user.displayName;
+			userIdText.innerHTML = "Logged in as "+ user.displayName;
 			let userInfoWrapper = document.getElementsByClassName('userInfoWrapper')[0];
 			userInfoWrapper.className = "userInfoWrapperShow";
 			let containerLoginButtons = document.getElementsByClassName("containerLoginButtons")[0]; //HIDES THE LOGIN BUTTONS
@@ -390,26 +390,6 @@ window.addEventListener('load', function() {
 				});
 			});
 
-/* Spara detta?
-	function fetchFromDatabase() {
-		db.ref('/').on('value', function(snapshot) {
-			console.log('On value: hämtar hela databasen.');
-			let data = snapshot.val();
-			console.log(data);
-
-			let divRecept = document.getElementById('recept');
-			for( let recipe in data ) {
-				let r = data[recipe];
-				console.log(`Receptet ${r.namn} innehåller: `, data[recipe]);
-				const newDiv = document.createElement('div');
-				let str = JSON.stringify(r);
-				newDiv.innerHTML = `<strong>${r.namn}</strong><br/>
-				${str}</br/>`;
-				divRecept.appendChild(newDiv);
-			}
-		})
-	} */
-
 		})  // window load
 
 	</script>
@@ -430,6 +410,7 @@ window.addEventListener('load', function() {
 
 		</div>
 		<div class="containerLoginButtons">
+			<h1>Sign in</h1>;
 			<div id="gitCont">
 				<!--<button id="redirectButton">Redirect authentication</button>-->
 				<button class="loginBtn loginBtn--github">Sign in with Github</button>
