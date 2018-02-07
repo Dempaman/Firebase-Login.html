@@ -355,7 +355,7 @@ window.addEventListener('load', function() {
 			  var user = result.user;
 				console.log('Popup result: logged in as ', user.displayName);
 				userIMG.src = user.photoURL;
-				userIdText.innerHTML = user.displayName;
+				userIdText.innerHTML = "Logged in as "+ user.displayName;
 				let userInfoWrapper = document.getElementsByClassName('userInfoWrapper')[0];
 				userInfoWrapper.className = "userInfoWrapperShow";
 				let containerLoginButtons = document.getElementsByClassName("containerLoginButtons")[0]; //HIDES THE LOGIN BUTTONS
